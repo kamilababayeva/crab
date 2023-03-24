@@ -875,20 +875,46 @@ public:
   }
 
   virtual void exec(intrinsic_t &cs) override {
-    if (cs.get_intrinsic_name() == "print_invariants") {
-      // Note that we don't call the abstract transformer "intrinsic".
-      // Instead, we directly print the projected invariants here.
-      typename abs_dom_t::variable_vector_t vars;
-      auto const&inputs = cs.get_args(); 
-      for (auto in: inputs) {
-	if (in.is_variable()) {
-	  vars.push_back(in.get_variable());
-	}
-      }
-      abs_dom_t copy(m_inv);
-      copy.project(vars);
-      crab::outs() << cs << "\n" << "\t" << copy << "\n";
-    } else {
+  //  if (cs.get_intrinsic_name() == "print_invariants") {
+  //     // Note that we don't call the abstract transformer "intrinsic".
+  //     // Instead, we directly print the projected invariants here.
+  //     typename abs_dom_t::variable_vector_t vars;
+  //     auto const&inputs = cs.get_args(); 
+  //     for (auto in: inputs) {
+	// if (in.is_variable()) {
+	//   vars.push_back(in.get_variable());
+	// }
+  //     }
+  //     abs_dom_t copy(m_inv);
+  //     copy.project(vars);
+  //     crab::outs() << cs << "\n" << "\t" << copy << "\n";
+  //   }
+  //   else {
+  //   m_inv.intrinsic(cs.get_intrinsic_name(), cs.get_args(), cs.get_lhs());
+  //   CRAB_VERBOSE_IF(5, crab::outs() << "EXECUTED " << cs << " :" << m_inv <<"\n";);    
+  // }
+
+    // Custom intrinsic
+    if(cs.get_intrinsic_name() == "print_invariants"){
+      AbsD pre_invs(m_inv);
+      crab::outs() << "Invariants at this point : " << pre_invs << "\n";
+      crab::outs() << "This is disjunctive lin cst " << m_inv.to_disjunctive_linear_constraint_system() << "\n";
+      crab::outs() << "This is lin cst " << m_inv.to_linear_constraint_system() << "\n\n";
+
+    }
+    else if(cs.get_intrinsic_name() == "print_invariants_to_variables"){
+      auto pre_invs = m_inv.get_content_domain();
+      pre_invs.project(cs.get_args());
+      crab::outs() << "Call statement for var_map " << cs.get_string() << "\n";
+      crab::outs() << "Invariants projected to variables " << pre_invs << "\n";
+    }
+    else if(cs.get_intrinsic_name() == "print_state_invariants"){
+      auto pre_invs = m_inv.get_content_domain();
+      pre_invs.project(cs.get_args());
+      crab::outs() << "Call statement for var_map " << cs.get_string() << "\n";
+      crab::outs() << "Invariants projected to state " << pre_invs << "\n";
+    }
+    else {
       m_inv.intrinsic(cs.get_intrinsic_name(), cs.get_args(), cs.get_lhs());
       CRAB_VERBOSE_IF(5, crab::outs() << "EXECUTED " << cs << " :" << m_inv <<"\n";);    
     }
