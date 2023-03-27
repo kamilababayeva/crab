@@ -896,14 +896,14 @@ public:
   // }
   
     // CUSTOM INTRINSIC
-    if(cs.get_intrinsic_name() == "print_invariants"){
-      AbsD pre_invs(m_inv);
-      crab::outs() << "Invariants at this point : " << pre_invs << "\n";
-      crab::outs() << "This is disjunctive lin cst " << m_inv.to_disjunctive_linear_constraint_system() << "\n";
-      crab::outs() << "This is lin cst " << m_inv.to_linear_constraint_system() << "\n\n";
+    // if(cs.get_intrinsic_name() == "print_invariants"){
+    //   AbsD pre_invs(m_inv);
+    //   crab::outs() << "Invariants at this point : " << pre_invs << "\n";
+    //   crab::outs() << "This is disjunctive lin cst " << m_inv.to_disjunctive_linear_constraint_system() << "\n";
+    //   crab::outs() << "This is lin cst " << m_inv.to_linear_constraint_system() << "\n\n";
 
-    }
-    else if(cs.get_intrinsic_name() == "print_invariants_to_variables"){
+    // }
+    if(cs.get_intrinsic_name() == "print_invariants"){
 
       // Note that we don't call the abstract transformer "intrinsic".
       // Instead, we directly print the projected invariants here.
