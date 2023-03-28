@@ -903,8 +903,8 @@ public:
     //   crab::outs() << "This is lin cst " << m_inv.to_linear_constraint_system() << "\n\n";
 
     // }
+    // Same as old but different prints
     if(cs.get_intrinsic_name() == "print_invariants"){
-
       // Note that we don't call the abstract transformer "intrinsic".
       // Instead, we directly print the projected invariants here.
       typename abs_dom_t::variable_vector_t vars;
@@ -916,11 +916,13 @@ public:
       }
       abs_dom_t copy(m_inv);
       copy.project(vars);
-      // crab::outs() << cs << "\n" << "\t" << copy << "\n";
-    
+
+      crab::outs() << "\n";
       crab::outs() << "Call statement for var_map " << cs << "\n";
       crab::outs() << "Invariants projected to variables " << copy << "\n";
+      crab::outs() << "\n";
     }
+    // DOES NOT WORK
     // else if(cs.get_intrinsic_name() == "print_state_invariants"){
     //   auto pre_invs = m_inv.get_content_domain();
     //   pre_invs.project(cs.get_args());
